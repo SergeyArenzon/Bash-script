@@ -3,7 +3,7 @@ dir=${1}
 cf=${2}
 compile=0;
 leak=0;
-#ffff
+
 if [[ -e "$dir/Makefile" ]]; then
       cd $dir 
 	if [ -x "$cf" ]; then
