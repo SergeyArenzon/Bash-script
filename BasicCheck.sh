@@ -40,6 +40,8 @@ fi
 #program output
  printf "Compilation    Memory leaks    Thread race \n   $compile            $leak           $thread\n "
 
+>sergey.txt
+echo "sergey">>sergey.txt
 
 #program exit value
 if [ $leak == "PASS" ] && [ $compile == "PASS" ] && [ $thread == "PASS" ]; then
