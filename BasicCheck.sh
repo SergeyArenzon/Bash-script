@@ -23,7 +23,7 @@ if [[ -e "$dir/Makefile" ]]; then #check if Makefile exist
       cd $dir 
 	make
 	if [ -x "$cf" ]; then #check if runnable
-	valgrind --leak-check=yes ./$cf >"$dir/test.txt"  #run and creates valgrid output file
+	valgrind --leak-check=yes ./$cf >"$dir/test.txt" 2>&1 #run and creates valgrid output file
 
 	grep -q "All heap blocks were freed -- no leaks are possible" "test.txt" 	#if no leaks output=0 else 1
 
