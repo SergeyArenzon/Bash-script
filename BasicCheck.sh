@@ -7,18 +7,6 @@ compile=0;
 leak=0;
 threat=0;
 
-
-
-
-
-
-
-
-
-
-
-
-
 if [[ -e "$dir/Makefile" ]]; then #check if Makefile exist
       cd $dir 
 	make
