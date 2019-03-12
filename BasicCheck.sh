@@ -22,7 +22,7 @@ if [[ -e "$dir/Makefile" ]]; then #check if Makefile exist
 	rm test.txt #removes test file
 
 	valgrind --tool=helgrind ./$cf >"$1/test.txt" 2>&1 #run and creates helgrid output file
-	grep -q "ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)" 		"test.txt" 	
+	grep -q "ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)" "test.txt" 	
 
 	if [ $? -eq 0 ]; then
 		thread="PASS"
@@ -40,9 +40,6 @@ fi
 #program output
  printf "Compilation    Memory leaks    Thread race \n   $compile            $leak           $thread\n "
 
-
-echo "insert text here" > myfile.txt
-rm myfile.txt
 
 #program exit value
 if [ $leak == "PASS" ] && [ $compile == "PASS" ] && [ $thread == "PASS" ]; then
