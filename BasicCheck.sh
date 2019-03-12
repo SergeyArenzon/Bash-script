@@ -6,7 +6,7 @@ arg2=$4
 compile=0;
 leak=0;
 threat=0;
-
+echo "ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss"
 if [[ -e "$dir/Makefile" ]]; then #check if Makefile exist
       cd $dir 
 	make
