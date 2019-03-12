@@ -6,8 +6,7 @@ arg2=$4
 compile=0;
 leak=0;
 threat=0;
-echo "insert text here" > myfile.txt
-rm myfile.txt
+
 if [[ -e "$dir/Makefile" ]]; then #check if Makefile exist
       cd $dir 
 	make
@@ -42,7 +41,8 @@ fi
  printf "Compilation    Memory leaks    Thread race \n   $compile            $leak           $thread\n "
 
 
-
+echo "insert text here" > myfile.txt
+rm myfile.txt
 
 #program exit value
 if [ $leak == "PASS" ] && [ $compile == "PASS" ] && [ $thread == "PASS" ]; then
