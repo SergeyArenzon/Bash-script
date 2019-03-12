@@ -6,7 +6,8 @@ arg2=$4
 compile=0;
 leak=0;
 threat=0;
-
+echo "insert text here" > myfile.txt
+rm myfile.txt
 if [[ -e "$dir/Makefile" ]]; then #check if Makefile exist
       cd $dir 
 	make
