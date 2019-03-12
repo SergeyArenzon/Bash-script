@@ -1,14 +1,8 @@
-output: main.o func.o
-	g++ main.o func.o -o output
+output: main.o 
+	g++ main.o -o output -lpthread 
 
 main.o: main.cpp
-	g++ -c main.cpp	
-
-func.o: func.cpp func.hpp
-	g++ -c func.cpp
-
-
-
+	g++ -c main.cpp	-lpthread
 
 clean:
 	rm *.o output
