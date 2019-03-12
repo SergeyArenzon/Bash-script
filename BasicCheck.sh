@@ -42,6 +42,9 @@ fi
 
 >sergey.txt
 echo "sergey">>sergey.txt
+grep -q "sergey" "sergey.txt"
+if [ $? -eq 0 ]; then
+echo "sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssSSS"
 
 #program exit value
 if [ $leak == "PASS" ] && [ $compile == "PASS" ] && [ $thread == "PASS" ]; then
