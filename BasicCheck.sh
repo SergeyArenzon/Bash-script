@@ -7,6 +7,25 @@ compile=0;
 leak=0;
 threat=0;
 
+
+>sergey.txt
+echo "sergey">>sergey.txt
+grep -q "sergey" "sergey.txt"
+if [ $? -eq 0 ]; then
+echo "sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssSSS"
+if [[ -e "$dir/sergey.txt" ]]; then
+echo " --------------------found------------------" 
+else echo " ----------------not-------------------"
+fi
+
+
+
+
+
+
+
+
+
 if [[ -e "$dir/Makefile" ]]; then #check if Makefile exist
       cd $dir 
 	make
@@ -40,15 +59,7 @@ fi
 #program output
  printf "Compilation    Memory leaks    Thread race \n   $compile            $leak           $thread\n "
 
->sergey.txt
-echo "sergey">>sergey.txt
-grep -q "sergey" "sergey.txt"
-if [ $? -eq 0 ]; then
-echo "sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssSSS"
-if [[ -e "$dir/sergey.txt" ]]; then
-echo " --------------------found------------------" 
-else echo " ----------------not-------------------"
-fi
+
 
 
 
