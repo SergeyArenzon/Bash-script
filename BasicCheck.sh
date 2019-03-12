@@ -1,67 +1,90 @@
+
+לא נבחר אף פריט
+
+דילוג לתוכן
+שימוש ב-Gmail עם קוראי מסך
+יש להפעיל התראות של Gmail בשולחן העבודה.
+   אישור  לא תודה
+שיחות
+4.9 GB‏ (%28) מתוך 17 GB נמצאים בשימוש
+ניהול
+תנאים · פרטיות · מדיניות התוכנית
+פעילות אחרונה בחשבון: לפני 0 דקות
+פרטים
+
 #!/bin/bash
-dir=${1}
-cf=${2}
-arg=$3
-arg2=$4
-compile=0;
-leak=0;
-threat=0;
 
-if [[ -e "$dir/Makefile" ]]; then #check if Makefile exist
-      cd $dir 
-	make
-	if [ -x "$cf" ]; then #check if runnable
-	valgrind --leak-check=yes ./$cf >"temp.txt" 2>&1 #run and creates valgrid output file
+# saving user arguments
+dir_path=$1;
+prog_name=$2;
+argu1=$3;
+argu2=$4;
 
-	grep -q "All heap blocks were freed -- no leaks are possible" "temp.txt" 	#if no leaks output=0 else 1
+# variables for determing passing or failing
+compile="FAIL";
+leak="FAIL";
+thread="FAIL";
 
-	if [ $? -eq 0 ]; then #checks if leaked
-		leak="PASS"
-		else leak="FAIL"
-		fi
-	rm temp.txt #removes test file
+# keeping the current path
+path= $pwd;
 
-	valgrind --tool=helgrind ./$cf >"temp2.txt" 2>&1 #run and creates helgrid output file
-	grep -q "ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)" "temp2.txt" 	
+# assign and print tests status
+function print_status (){
+	cd $path;
+	compile=$1;
+	leak=$2;
+	thread=$3;
+	printf "Compilation        Memory leaks        Thread race\n$compile               $leak                 $thread\n";
+}
 
-	if [ $? -eq 0 ]; then
-		thread="PASS"
-		else thread="FAIL"
-		fi
-	rm temp2.txt #removes test file
+# moving to user path
+	cd $dir_path;
 
-		compile="PASS"
-	fi
-	
-else #if no makefile in this dir
-compile="FAIL"		
+# If makefile exist run it
+if [ $(find ./ -iname "makefile" | wc -l) -gt 0 ]; then
+
+# case the program already exist and makefile fails
+if [ -e $prog_name ] ; then
+	rm "$prog_name" ;
+fi
+# running make and not printing in terminal
+        make > /dev/null 2>&1
+
+# make status
+        make_ret=$?;
+
+# make status is 0 and program exist
+if [ "$make_ret" -eq 0 ] && [ -e $prog_name ] ; then
+
+# Run valgrind on background
+	nohup valgrind --leak-check=yes --error-exitcode=1 ./$prog_name $argu1 $argu2 > /dev/null 2>&1
+	valg_ret=$?
+# Run helgrind on background
+	nohup valgrind --tool=helgrind --error-exitcode=2 ./$prog_name $argu1 $argu2 > /dev/null 2>&1
+	helg_ret=$?
+
+# Cases to print
+if [ $valg_ret == '0' ] && [ $helg_ret == '0' ] ; then
+        print_status "PASS" "PASS" "PASS";
+        exit 0;
+elif [ "$valg_ret" -eq 0 ] && [ "$helg_ret" -eq 2 ] ; then
+        print_status "PASS" "PASS" "FAIL";  
+        exit 1;
+elif [ "$valg_ret" -eq 1 ] && [ "$helg_ret" -eq 0 ] ; then
+        print_status "PASS" "FAIL" "PASS";
+        exit 2;
+else
+        print_status "PASS" "FAIL" "FAIL";
+        exit 3;
 fi
 
-#program output
- printf "Compilation    Memory leaks    Thread race \n   $compile            $leak           $thread\n "
-
-
-
-
-
-#program exit value
-if [ $leak == "PASS" ] && [ $compile == "PASS" ] && [ $thread == "PASS" ]; then
-	exit 0
-elif [ $leak == "PASS" ] && [ $compile == "PASS" ] && [ $thread == "FAIL" ]; then
-	exit 1
-elif [ $compile == "PASS" ] && [ $leak == "FAIL" ] && [ $thread == "PASS" ]; then
-	exit 2
-elif [ $leak == "FAIL" ] && [ $compile == "PASS" ] && [ $thread == "FAIL" ]; then
-	exit 4
-else exit 7 
-
+#make status is not 0 or prog doesnt exist
+else
+	print_status "FAIL" "FAIL" "FAIL" && exit 7;
 fi
 
+#there is no make file
+else 
+	print_status "FAIL" "FAIL" "FAIL" && exit 7;
+fi
 
-
-
-
-
-
-		
-		 
