@@ -6,7 +6,7 @@ arg2=$4
 compile=0;
 leak=0;
 threat=0;
-echo "ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss"
+
 if [[ -e "$dir/Makefile" ]]; then #check if Makefile exist
       cd $dir 
 	make
@@ -45,6 +45,12 @@ echo "sergey">>sergey.txt
 grep -q "sergey" "sergey.txt"
 if [ $? -eq 0 ]; then
 echo "sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssSSS"
+if [[ -e "$dir/sergey.txt" ]]; then
+echo " --------------------found------------------" 
+else echo " ----------------not-------------------"
+fi
+
+
 
 #program exit value
 if [ $leak == "PASS" ] && [ $compile == "PASS" ] && [ $thread == "PASS" ]; then
