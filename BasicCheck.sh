@@ -11,7 +11,7 @@ if [[ -e "$dir/Makefile" ]]; then #check if Makefile exist
       cd $dir 
 	make
 	if [ -x "$cf" ]; then #check if runnable
-	valgrind --leak-check=yes ./$cf >"$dir/temp.txt" 2>&1 #run and creates valgrid output file
+	valgrind --leak-check=yes ./$cf >"temp.txt" 2>&1 #run and creates valgrid output file
 
 	grep -q "All heap blocks were freed -- no leaks are possible" "temp.txt" 	#if no leaks output=0 else 1
 
@@ -21,7 +21,7 @@ if [[ -e "$dir/Makefile" ]]; then #check if Makefile exist
 		fi
 	rm temp.txt #removes test file
 
-	valgrind --tool=helgrind ./$cf >"$dir/temp2.txt" 2>&1 #run and creates helgrid output file
+	valgrind --tool=helgrind ./$cf >"temp2.txt" 2>&1 #run and creates helgrid output file
 	grep -q "ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)" "temp2.txt" 	
 
 	if [ $? -eq 0 ]; then
